@@ -21,6 +21,11 @@ public class GatewayConfig {
     private String notificationPreferencesServerUrl;
 
     @Bean
+    public RedisRateLimiter rateLimiter(){
+        return new RedisRateLimiter(1,1);
+    }
+
+    @Bean
     public RouteLocator chargebeeRoutes(RouteLocatorBuilder builder) {
         return builder.routes()
                 .route(predicate -> predicate
@@ -29,7 +34,9 @@ public class GatewayConfig {
                         .uri(notificationServerUrl + "/notifications"))
 
                 .route(predicate -> predicate
-                        .path("/notification-preferences/**").uri(notificationPreferencesServerUrl + "/notification-preferences"))
+                        .path("/notification-preferences/**")
+                        .filters(i -> i.requestRateLimiter(j -> j.setRateLimiter(rateLimiter())))
+                        .uri(notificationPreferencesServerUrl + "/notification-preferences"))
 
                 .route(predicate -> predicate
                         .path("/advice/**").uri(notificationServerUrl + "/advice"))
@@ -37,9 +44,4 @@ public class GatewayConfig {
                         .path("/metric/**").uri(notificationServerUrl + "/metric"))
                 .build();
     }
-
-//    @Bean
-//    public RedisRateLimiter rateLimiter(){
-//        return new RedisRateLimiter(1,3);
-//    }
 }
