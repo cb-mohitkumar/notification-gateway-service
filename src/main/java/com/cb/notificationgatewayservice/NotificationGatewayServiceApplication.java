@@ -15,6 +15,6 @@ public class NotificationGatewayServiceApplication {
 
     @GetMapping("/hi")
     public String hello() {
-        return "Hi Mohit";
+        return "Gateway Says - Hi Mohit";
     }
 }

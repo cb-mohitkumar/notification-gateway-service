@@ -21,6 +21,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.cloud:spring-cloud-starter-gateway'
+    // Fixes Mac M1 chip Issue- Unable to load io.netty.resolver.dns.macos.MacOSDnsServerAddressStreamProvider, fallback to system defaults. This may result in incorrect DNS resolutions on MacOS.
+    implementation 'io.netty:netty-resolver-dns-native-macos:4.1.72.Final:osx-aarch_64'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
     // lombok
